@@ -693,6 +693,9 @@ async function doSearch() {
   }, 600);
 
   document.getElementById('resultsFor').innerHTML = `Results for: <span>${query}</span>`;
+  setTimeout(() => {
+    document.getElementById('resultsSection').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, 200);
   addRecent(query.toLowerCase());
 
   try {
@@ -809,7 +812,7 @@ function renderResults(data) {
         <span class="badge badge-stars">★ ${item.stars}</span>
       </div>
       <div class="rc-desc">${item.desc}</div>
-      <a class="rc-link" href="#">${item.link}</a>
+      <a class="rc-link" onclick="var url=('${item.link}'.startsWith('http') ? '${item.link}' : 'https://www.amazon.com/s?k=' + encodeURIComponent('${item.name}')); window.open(url,'_blank'); return false;" href="javascript:void(0)">🔍 ${item.link && item.link.startsWith('http') ? item.link : 'Search on Amazon: ' + item.name}</a>
       <div class="rc-meta">
         <div class="rc-meta-item"><div class="rc-meta-label">Est. Rev/mo</div><div class="rc-meta-val up">${item.rev}</div></div>
         <div class="rc-meta-item"><div class="rc-meta-label">Competition</div><div class="rc-meta-val">${item.comp}</div></div>
