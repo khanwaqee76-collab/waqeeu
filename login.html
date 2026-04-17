@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Swaz — Login</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@400;500;600;700&display=swap');
+
+  :root {
+    --green-dark: #0d2318;
+    --green-mid: #1a3a2a;
+    --green-light: #2a5040;
+    --orange: #FF6B2B;
+    --orange-hover: #e55a1a;
+    --white: #ffffff;
+    --gray: #8a9e94;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background-color: var(--green-dark);
+    font-family: 'Barlow', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    position: relative;
+  }
+
+  /* Background grid pattern */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: 
+      linear-gradient(rgba(255,107,43,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,107,43,0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+  }
+
+  /* Glow orb */
+  body::after {
+    content: '';
+    position: fixed;
+    top: -200px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(255,107,43,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .login-wrapper {
+    width: 100%;
+    max-width: 420px;
+    padding: 20px;
+    animation: fadeUp 0.6s ease forwards;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Logo */
+  .logo {
+    text-align: center;
+    margin-bottom: 36px;
+  }
+
+  .logo-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+
+  .logo-dot {
+    width: 10px;
+    height: 10px;
+    background: var(--orange);
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.6; transform: scale(1.3); }
+  }
+
+  .logo-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 32px;
+    color: var(--white);
+    letter-spacing: 3px;
+  }
+
+  .logo-sub {
+    font-size: 12px;
+    color: var(--gray);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+
+  /* Card */
+  .card {
+    background: var(--green-mid);
+    border: 1px solid rgba(255,107,43,0.15);
+    border-radius: 16px;
+    padding: 40px 36px;
+    box-shadow: 0 24px 60px rgba(0,0,0,0.4);
+  }
+
+  .card-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px;
+    color: var(--white);
+    letter-spacing: 2px;
+    margin-bottom: 6px;
+  }
+
+  .card-subtitle {
+    font-size: 13px;
+    color: var(--gray);
+    margin-bottom: 32px;
+  }
+
+  /* Form */
+  .form-group {
+    margin-bottom: 20px;
+  }
+
+  label {
+    display: block;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--gray);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 8px;
+  }
+
+  input {
+    width: 100%;
+    background: var(--green-dark);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 10px;
+    padding: 14px 16px;
+    font-family: 'Barlow', sans-serif;
+    font-size: 15px;
+    color: var(--white);
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+
+  input::placeholder { color: rgba(255,255,255,0.2); }
+
+  input:focus {
+    border-color: var(--orange);
+    box-shadow: 0 0 0 3px rgba(255,107,43,0.1);
+  }
+
+  /* Error message */
+  .error-msg {
+    display: none;
+    background: rgba(255,80,80,0.1);
+    border: 1px solid rgba(255,80,80,0.3);
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-size: 13px;
+    color: #ff6b6b;
+    margin-bottom: 16px;
+    text-align: center;
+  }
+
+  .error-msg.show { display: block; }
+
+  /* Button */
+  .btn {
+    width: 100%;
+    background: var(--orange);
+    color: var(--white);
+    border: none;
+    border-radius: 10px;
+    padding: 15px;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 18px;
+    letter-spacing: 2px;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+    margin-top: 4px;
+  }
+
+  .btn:hover { background: var(--orange-hover); }
+  .btn:active { transform: scale(0.98); }
+
+  .btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  /* Footer */
+  .footer {
+    text-align: center;
+    margin-top: 28px;
+    font-size: 12px;
+    color: var(--gray);
+  }
+
+  .footer a {
+    color: var(--orange);
+    text-decoration: none;
+  }
+
+  .divider {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 24px 0;
+  }
+
+  .divider-line {
+    flex: 1;
+    height: 1px;
+    background: rgba(255,255,255,0.08);
+  }
+
+  .divider-text {
+    font-size: 11px;
+    color: var(--gray);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .waqi-tag {
+    text-align: center;
+    margin-top: 32px;
+    font-size: 11px;
+    color: rgba(255,255,255,0.2);
+    letter-spacing: 1px;
+  }
+</style>
+</head>
+<body>
+
+<div class="login-wrapper">
+  <div class="logo">
+    <div class="logo-badge">
+      <div class="logo-dot"></div>
+      <span class="logo-name">SWAZ</span>
+    </div>
+    <div class="logo-sub">Amazon Niche Research Software</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">WELCOME BACK</div>
+    <div class="card-subtitle">Sign in to access your niche research dashboard</div>
+
+    <div class="error-msg" id="errorMsg">
+      ❌ Incorrect username or password. Please try again.
+    </div>
+
+    <div class="form-group">
+      <label>Username</label>
+      <input type="text" id="username" placeholder="Enter your username" autocomplete="username" />
+    </div>
+
+    <div class="form-group">
+      <label>Password</label>
+      <input type="password" id="password" placeholder="Enter your password" autocomplete="current-password" />
+    </div>
+
+    <button class="btn" onclick="handleLogin()">▶ SIGN IN →</button>
+
+    <div class="divider">
+      <div class="divider-line"></div>
+      <div class="divider-text">Need access?</div>
+      <div class="divider-line"></div>
+    </div>
+
+    <div class="footer">
+      Contact us on WhatsApp to get your account<br>
+      <a href="https://wa.me/923300006920">+92 330 0006920</a>
+    </div>
+  </div>
+
+  <div class="waqi-tag">© 2025 WAQI GLOBAL TECH · ALL RIGHTS RESERVED</div>
+</div>
+
+<script>
+  // =============================================
+  // ADD YOUR USERS HERE
+  // Format: { username: "name", password: "pass" }
+  // =============================================
+  const USERS = [
+    { username: "admin", password: "swaz2024" },
+    { username: "waqee", password: "waqi123" },
+    // Add more users below as you get more customers:
+    // { username: "customer1", password: "pass123" },
+    // { username: "customer2", password: "pass456" },
+  ];
+  // =============================================
+
+  // Press Enter to login
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') handleLogin();
+  });
+
+  function handleLogin() {
+    const username = document.getElementById('username').value.trim();
+    const password = document.getElementById('password').value.trim();
+    const errorMsg = document.getElementById('errorMsg');
+    const btn = document.querySelector('.btn');
+
+    if (!username || !password) {
+      errorMsg.textContent = '⚠️ Please enter both username and password.';
+      errorMsg.classList.add('show');
+      return;
+    }
+
+    btn.disabled = true;
+    btn.textContent = 'SIGNING IN...';
+
+    setTimeout(() => {
+      const validUser = USERS.find(
+        u => u.username === username && u.password === password
+      );
+
+      if (validUser) {
+        // Save login session
+        sessionStorage.setItem('swaz_logged_in', 'true');
+        sessionStorage.setItem('swaz_user', username);
+        // Redirect to main tool
+        window.location.href = 'index.html';
+      } else {
+        errorMsg.textContent = '❌ Incorrect username or password. Please try again.';
+        errorMsg.classList.add('show');
+        btn.disabled = false;
+        btn.textContent = '▶ SIGN IN →';
+      }
+    }, 800);
+  }
+</script>
+
+</body>
+</html>
