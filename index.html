@@ -1,6 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <script>
+  if (!sessionStorage.getItem('swaz_logged_in')) {
+    window.location.href = 'login.html';
+  }
+</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Swaz — Amazon Niche Research Software | Digital SaaS Tool</title>
